@@ -1,23 +1,20 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9-slim'
+        }
+    }
 
     stages {
-        stage('checkout') {
+        stage('Setup Dependencies') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Setup Environment and Dependencies') {
-            steps {
-                sh 'apt-get update && apt-get install -y python3 python3-pip'
-                sh 'python3 -m pip install -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'python3 -m pytest test_calculator.py -v'
+                sh 'pytest test_calculator.py -v'
             }
         }
     }
