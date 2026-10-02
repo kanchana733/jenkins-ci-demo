@@ -10,13 +10,13 @@ pipeline {
 
         stage('Setup Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'python3 -m pip install --user -r requirements.txt || python -m pip install --user -r requirements.txt || pip install --user -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest test_calculator.py -v'
+                sh 'python3 -m pytest test_calculator.py -v || python -m pytest test_calculator.py -v || pytest test_calculator.py -v'
             }
         }
     }
