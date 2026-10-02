@@ -8,19 +8,15 @@ pipeline {
             }
         }
 
-        stage('Setup Virtual Environment & Dependencies') {
+        stage('Setup Dependencies') {
             steps {
-                sh '''
-                    python3 -m venv venv
-                    ./venv/bin/pip install --upgrade pip
-                    ./venv/bin/pip install -r requirements.txt
-                '''
+                sh 'python3 -m pip install --break-system-packages -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh './venv/bin/pytest test_calculator.py -v'
+                sh 'python3 -m pytest test_calculator.py -v'
             }
         }
     }
