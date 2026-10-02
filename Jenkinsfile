@@ -10,13 +10,13 @@ pipeline {
 
         stage('Setup Dependencies') {
             steps {
-                sh 'python3 -m pip install -r requirements.txt'
+                sh 'docker run --rm -v ${WORKSPACE}:/app -w /app python:3.9-slim pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'python3 -m pytest test_calculator.py -v --html=reports/report.html'
+                sh 'docker run --rm -v ${WORKSPACE}:/app -w /app python:3.9-slim python -m pytest test_calculator.py -v --html=reports/report.html --self-contained-html'
             }
         }
     }
